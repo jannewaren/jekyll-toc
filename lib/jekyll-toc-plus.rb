@@ -26,7 +26,10 @@ module Jekyll
 
   # Jekyll Table of Contents filter plugin
   module TableOfContentsFilter
-    # Deprecated method. Removed in v1.0.
+    # Renders the TOC only (no anchors injected into the content).
+    # Kept as a supported filter: unlike the {% toc %} tag, it works on any
+    # page because it receives the content as input, whereas the tag reads
+    # page['content'] and therefore only works for Posts and Collections.
     def toc_only(html)
       return '' unless toc_enabled?
 
@@ -60,4 +63,4 @@ module Jekyll
 end
 
 Liquid::Template.register_filter(Jekyll::TableOfContentsFilter)
-Liquid::Template.register_tag('toc', Jekyll::TocTag) # will be enabled at v1.0
+Liquid::Template.register_tag('toc', Jekyll::TocTag)
