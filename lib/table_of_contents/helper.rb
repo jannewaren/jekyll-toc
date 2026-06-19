@@ -4,7 +4,7 @@ module Jekyll
   module TableOfContents
     # helper methods for Parser
     module Helper
-      PUNCTUATION_REGEXP = /[^\p{Word}\- ]/u.freeze
+      PUNCTUATION_REGEXP = /[^\p{Word}\- ]/u
 
       def generate_toc_id(text)
         text = text.downcase

@@ -10,13 +10,9 @@ jobs:
   test:
     strategy:
       matrix:
-        ruby: ["2.7", "3.0", "3.1", "3.2", "3.3"]
+        ruby: ["3.2", "3.3", "3.4", "4.0"]
         gemfile:
-          - gemfiles/jekyll_3.9.gemfile
-          - gemfiles/jekyll_4.0.gemfile
-          - gemfiles/jekyll_4.1.gemfile
-          - gemfiles/jekyll_4.2.gemfile
-          - gemfiles/jekyll_4.3.gemfile
+          - gemfiles/jekyll_4.4.gemfile
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     runs-on: ubuntu-latest

@@ -26,8 +26,8 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.required_ruby_version = '>= 2.7'
+  spec.required_ruby_version = '>= 3.2'
 
-  spec.add_dependency 'jekyll', '>= 3.9'
+  spec.add_dependency 'jekyll', '>= 4.4'
   spec.add_dependency 'nokogiri', '~> 1.12'
 end
