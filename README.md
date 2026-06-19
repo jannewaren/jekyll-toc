@@ -1,9 +1,18 @@
-# jekyll-toc
+# jekyll-toc-plus
 
-![CI](https://github.com/toshimaru/jekyll-toc/workflows/CI/badge.svg)
-[![Gem Version](https://badge.fury.io/rb/jekyll-toc.svg)](https://badge.fury.io/rb/jekyll-toc)
-[![Code Climate](https://codeclimate.com/github/toshimaru/jekyll-toc/badges/gpa.svg)](https://codeclimate.com/github/toshimaru/jekyll-toc)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/cd56b207f327603662a1/test_coverage)](https://codeclimate.com/github/toshimaru/jekyll-toc/test_coverage)
+![CI](https://github.com/jannewaren/jekyll-toc-plus/workflows/CI/badge.svg)
+[![Gem Version](https://badge.fury.io/rb/jekyll-toc-plus.svg)](https://badge.fury.io/rb/jekyll-toc-plus)
+
+## About this fork
+
+`jekyll-toc-plus` is a fork of [`toshimaru/jekyll-toc`](https://github.com/toshimaru/jekyll-toc).
+All credit for the original plugin goes to its upstream authors — this fork simply adds a
+few extra options (`div_list`, `flat_list`, `toc_only_direct_text`, and per-page
+`toc_config` overrides) on top of their work, and is published to RubyGems so others can
+`gem install` it directly.
+
+It is otherwise a drop-in replacement. The maintainer makes **no promise to maintain this
+as a full author**, but contributions and pull requests are welcome.
 
 ## Table of Contents
 
@@ -28,17 +37,17 @@
 
 ## Installation
 
-Add jekyll-toc plugin in your site's `Gemfile`, and run `bundle install`.
+Add jekyll-toc-plus plugin in your site's `Gemfile`, and run `bundle install`.
 
 ```ruby
-gem 'jekyll-toc'
+gem 'jekyll-toc-plus'
 ```
 
-Add jekyll-toc to the `gems:` section in your site's `_config.yml`.
+Add jekyll-toc-plus to the `plugins:` section in your site's `_config.yml`.
 
 ```yml
 plugins:
-  - jekyll-toc
+  - jekyll-toc-plus
 ```
 
 Set `toc: true` in posts for which you want the TOC to appear.

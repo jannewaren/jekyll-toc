@@ -15,7 +15,7 @@ module Jekyll
 
       def extract_text(node, only_direct_text: false)
         if only_direct_text
-          node.children.select { |child| child.text? }.map { |child| child.text.strip }.reject(&:empty?).join(' ')
+          node.children.select(&:text?).map { |child| child.text.strip }.reject(&:empty?).join(' ')
         else
           node.text.strip
         end

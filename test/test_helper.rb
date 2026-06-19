@@ -8,7 +8,7 @@ require 'minitest/reporters'
 Minitest::Reporters.use!
 
 require 'jekyll'
-require 'jekyll-toc'
+require 'jekyll-toc-plus'
 
 SIMPLE_HTML = <<~HTML
   <h1>Simple H1</h1>

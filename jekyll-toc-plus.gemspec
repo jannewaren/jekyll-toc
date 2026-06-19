@@ -3,19 +3,19 @@
 require_relative 'lib/table_of_contents/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'jekyll-toc'
+  spec.name          = 'jekyll-toc-plus'
   spec.version       = Jekyll::TableOfContents::VERSION
   spec.summary       = 'Jekyll Table of Contents plugin'
   spec.description   = 'Jekyll (Ruby static website generator) plugin which generates a Table of Contents for the page.'
-  spec.authors       = %w[toshimaru torbjoernk]
-  spec.email         = 'me@toshimaru.net'
-  spec.homepage      = 'https://github.com/toshimaru/jekyll-toc'
+  spec.authors       = ['toshimaru', 'torbjoernk', 'Janne Warén']
+  spec.email         = 'janne.waren@gmail.com'
+  spec.homepage      = 'https://github.com/jannewaren/jekyll-toc-plus'
   spec.license       = 'MIT'
   spec.require_paths = ['lib']
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/toshimaru/jekyll-toc'
-  spec.metadata['changelog_uri'] = 'https://github.com/toshimaru/jekyll-toc/releases'
+  spec.metadata['source_code_uri'] = 'https://github.com/jannewaren/jekyll-toc-plus'
+  spec.metadata['changelog_uri'] = 'https://github.com/jannewaren/jekyll-toc-plus/releases'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   # Specify which files should be added to the gem when it is released.
