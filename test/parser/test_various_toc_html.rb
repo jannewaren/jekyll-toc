@@ -149,6 +149,20 @@ class TestVariousTocHtml < Minitest::Test
     assert_equal(expected, parser.build_toc)
   end
 
+  def test_custom_no_toc_class
+    parser = Jekyll::TableOfContents::Parser.new(<<~HTML, 'no_toc_class' => 'skip-toc')
+      <h1>h1</h1>
+      <h1 class="skip-toc">skipped h1</h1>
+      <h2 class="no_toc">default class no longer skips</h2>
+    HTML
+    toc_html = parser.build_toc
+
+    assert_includes(toc_html, 'h1')
+    refute_includes(toc_html, 'skipped h1')
+    # With no_toc_class overridden, the default "no_toc" class is no longer special
+    assert_includes(toc_html, 'default class no longer skips')
+  end
+
   def test_japanese_toc
     parser = Jekyll::TableOfContents::Parser.new(<<~HTML)
       <h1>あ</h1>

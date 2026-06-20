@@ -168,6 +168,7 @@ toc:
   min_level: 1
   max_level: 6
   ordered_list: false
+  no_toc_class: no_toc
   no_toc_section_class: no_toc_section
   list_id: toc
   list_class: section-nav
@@ -228,6 +229,14 @@ The heading is ignored in the toc by adding `no_toc` class.
 <h1>h1</h1>
 <h1 class="no_toc">This heading is ignored in the TOC</h1>
 <h2>h2</h2>
+```
+
+The class can be configured on `_config.yml`:
+
+```yml
+# _config.yml
+toc:
+  no_toc_class: skip-toc # default: no_toc
 ```
 
 ### Skip TOC Sectionally
