@@ -5,27 +5,38 @@ require 'table_of_contents/configuration'
 require 'table_of_contents/parser'
 
 module Jekyll
+  module TableOfContents
+    # Resolves the effective TOC config by merging site-wide `_config.yml`
+    # `toc:` settings with per-page `toc_config:` front matter, where page
+    # values override site values. Shared by the filter and the tag.
+    module ConfigResolver
+      private
+
+      def merge_toc_config(registers)
+        site_config = registers[:site].config['toc'] || {}
+        page_config = registers[:page]['toc_config'] || {}
+        site_config.merge(page_config)
+      end
+    end
+  end
+
   # toc tag for Jekyll
   class TocTag < Liquid::Tag
+    include TableOfContents::ConfigResolver
+
     def render(context)
       return '' unless context.registers[:page]['toc']
 
       content_html = context.registers[:page]['content']
-      toc_config = merge_toc_config(context)
+      toc_config = merge_toc_config(context.registers)
       TableOfContents::Parser.new(content_html, toc_config).build_toc
-    end
-
-    private
-
-    def merge_toc_config(context)
-      site_config = context.registers[:site].config['toc'] || {}
-      page_config = context.registers[:page]['toc_config'] || {}
-      site_config.merge(page_config)
     end
   end
 
   # Jekyll Table of Contents filter plugin
   module TableOfContentsFilter
+    include TableOfContents::ConfigResolver
+
     # Renders the TOC only (no anchors injected into the content).
     # Kept as a supported filter: unlike the {% toc %} tag, it works on any
     # page because it receives the content as input, whereas the tag reads
@@ -55,9 +66,7 @@ module Jekyll
     end
 
     def toc_config
-      site_config = @context.registers[:site].config['toc'] || {}
-      page_config = @context.registers[:page]['toc_config'] || {}
-      site_config.merge(page_config)
+      merge_toc_config(@context.registers)
     end
   end
 end

@@ -2,4 +2,3 @@
 /Gemfile.lock
 /.bundle/
 /coverage
-*.gemfile.lock

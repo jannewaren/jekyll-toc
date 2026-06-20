@@ -21,25 +21,20 @@ bundle exec ruby -Ilib -Itest test/parser/test_toc_filter.rb
 # Run a single test by name
 bundle exec ruby -Ilib -Itest test/parser/test_toc_filter.rb -n test_nested_toc
 
-# Multi-version testing against supported Jekyll versions (see Appraisals)
-bundle exec appraisal install
-bundle exec appraisal rake
-BUNDLE_GEMFILE=gemfiles/jekyll_4.3.gemfile bundle exec rake   # one version
-
 bundle exec rake build         # build the .gem
 ```
 
-CI (`.github/workflows`) runs the test suite across the matrix Ruby `2.7–3.3` × Jekyll `3.9–4.3`, plus a separate RuboCop job. RuboCop targets Ruby 2.7 syntax; keep new code compatible.
+CI (`.github/workflows`) runs the test suite across Ruby `3.2`, `3.3`, `3.4`, and `4.0` (on Jekyll 4.4), plus a separate RuboCop job. RuboCop targets Ruby 3.2 syntax; keep new code compatible.
 
 ## Architecture
 
 The plugin is two thin Liquid integrations over one parser.
 
 **Entry point — `lib/jekyll-toc-plus.rb`** (the file `require`d by Jekyll). Registers:
-- `Jekyll::TableOfContentsFilter`, a Liquid filter module exposing three filters: `toc` (TOC + anchored content), `toc_only` (just the TOC list; deprecated, slated for removal in v1.0), and `inject_anchors` (just the anchored content). Each is gated by `toc_enabled?`, which requires the page's front matter to have `toc: true`.
+- `Jekyll::TableOfContentsFilter`, a Liquid filter module exposing three filters: `toc` (TOC + anchored content), `toc_only` (just the TOC list; a supported filter, kept because — unlike the `{% toc %}` tag — it works on any page), and `inject_anchors` (just the anchored content). Each is gated by `toc_enabled?`, which requires the page's front matter to have `toc: true`.
 - `Jekyll::TocTag`, the `{% toc %}` Liquid tag. Equivalent to `toc_only` but reads `content` directly from the page register, so it only works for Posts/Collections (documented limitation).
 
-**Config resolution** happens identically in both the filter (`toc_config`) and the tag (`merge_toc_config`): site-wide `_config.yml` `toc:` settings are merged with per-page `toc_config:` front matter, where **page values override site values**. This is the mechanism behind per-page `min_level`/`max_level`/`toc_only_direct_text` overrides.
+**Config resolution** is shared via `TableOfContents::ConfigResolver#merge_toc_config`, mixed into both the filter (called through `toc_config`) and the tag: site-wide `_config.yml` `toc:` settings are merged with per-page `toc_config:` front matter, where **page values override site values**. This is the mechanism behind per-page `min_level`/`max_level`/`toc_only_direct_text` overrides.
 
 **`TableOfContents::Parser`** (`lib/table_of_contents/parser.rb`) does all real work:
 - Parses the HTML once with Nokogiri (`DocumentFragment`) in `initialize`, then `parse_content` walks the configured heading levels, skipping headings with the `no_toc` class or inside any `no_toc_section_class` container. Each entry records its id (existing `id` attribute, else a slug from the heading text), escaped text, node name, and heading number.

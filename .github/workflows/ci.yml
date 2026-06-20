@@ -11,10 +11,6 @@ jobs:
     strategy:
       matrix:
         ruby: ["3.2", "3.3", "3.4", "4.0"]
-        gemfile:
-          - gemfiles/jekyll_4.4.gemfile
-    env:
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -130,7 +130,7 @@ location with the `toc_only` filter.
 
 ## Generated HTML
 
-jekyll-toc generates an unordered list by default. The HTML output is as follows.
+jekyll-toc-plus generates an unordered list by default. The HTML output is as follows.
 
 ```html
 <ul id="toc" class="section-nav">
@@ -158,7 +158,7 @@ jekyll-toc generates an unordered list by default. The HTML output is as follows
 
 ## Customization
 
-jekyll-toc is customizable on `_config.yml`.
+jekyll-toc-plus is customizable on `_config.yml`.
 
 ### Default Configuration
 
