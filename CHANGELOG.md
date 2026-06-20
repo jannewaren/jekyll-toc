@@ -1,9 +1,11 @@
 # Changelog
 
-Released versions are documented under [GitHub Releases](https://github.com/jannewaren/jekyll-toc-plus/releases).
-Unreleased, not-yet-tagged changes are listed below.
+Versions through 0.20.0 are documented under
+[GitHub Releases](https://github.com/jannewaren/jekyll-toc-plus/releases).
 
 ## [Unreleased]
+
+## [0.21.0] - 2026-06-20
 
 ### Added
 
