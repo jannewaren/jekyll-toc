@@ -25,7 +25,7 @@ module Jekyll
     include TableOfContents::ConfigResolver
 
     def render(context)
-      return '' unless context.registers[:page]['toc']
+      return '' unless context.registers[:page]['toc'] == true
 
       content_html = context.registers[:page]['content']
       toc_config = merge_toc_config(context.registers)

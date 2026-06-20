@@ -27,4 +27,13 @@ class TestTableOfContentsTag < Minitest::Test
 
     assert_empty tag.render(context)
   end
+
+  # The tag requires `toc: true` strictly, matching the filters. A truthy but
+  # non-true value (e.g. the string "true") does not enable the TOC.
+  def test_toc_tag_requires_strict_true
+    context = @stubbed_context.new({ page: { 'toc' => 'true', 'toc_config' => nil } })
+    tag = Jekyll::TocTag.parse('toc_tag', '', Tokenizer.new(''), ParseContext.new)
+
+    assert_empty tag.render(context)
+  end
 end
