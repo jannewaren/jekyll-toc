@@ -43,9 +43,9 @@ module Jekyll
       private
 
       def generate_option_hash(options)
+        return DEFAULT_CONFIG.dup unless options.is_a?(Hash)
+
         DEFAULT_CONFIG.merge(options)
-      rescue TypeError
-        DEFAULT_CONFIG
       end
     end
   end

@@ -17,8 +17,8 @@ class TestConfiguration < Minitest::Test
     refute(configuration.flat_list)
   end
 
-  def test_type_error
-    configuration = Jekyll::TableOfContents::Configuration.new('TypeError!')
+  def test_non_hash_options_fall_back_to_defaults
+    configuration = Jekyll::TableOfContents::Configuration.new('not a hash')
 
     assert_equal(1..6, configuration.toc_levels)
     refute(configuration.ordered_list)
