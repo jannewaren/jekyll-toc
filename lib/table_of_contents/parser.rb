@@ -24,9 +24,8 @@ module Jekyll
 
       def inject_anchors_into_html
         @entries.each do |entry|
-          # NOTE: `entry[:id]` is automatically URL encoded by Nokogiri
           entry[:header_content].add_previous_sibling(
-            %(<a class="anchor" href="##{entry[:id]}" aria-hidden="true"><span class="octicon octicon-link"></span></a>)
+            %(<a class="anchor" href="##{escaped_id(entry)}" aria-hidden="true"><span class="octicon octicon-link"></span></a>)
           )
         end
 
@@ -44,7 +43,9 @@ module Jekyll
           .reject { |n| n.classes.include?(@configuration.no_toc_class) }
           .inject([]) do |entries, node|
           text = extract_text(node, only_direct_text: @configuration.toc_only_direct_text)
-          id = node.attribute('id') || generate_toc_id(text)
+          # Use the attribute's string value (not the Nokogiri::XML::Attr object)
+          # so duplicate explicit ids dedupe correctly via the `headers` hash.
+          id = node.attribute('id')&.value || generate_toc_id(text)
 
           suffix_num = headers[id]
           headers[id] += 1
@@ -73,7 +74,7 @@ module Jekyll
         toc_list = +''
 
         entries.each do |entry|
-          toc_list << %(<#{list_parent_tag} class="#{@configuration.item_class} #{@configuration.item_prefix}#{entry[:node_name]}"><a href="##{entry[:id]}">#{entry[:text]}</a></#{list_parent_tag}>\n)
+          toc_list << %(<#{list_parent_tag} class="#{@configuration.item_class} #{@configuration.item_prefix}#{entry[:node_name]}"><a href="##{escaped_id(entry)}">#{entry[:text]}</a></#{list_parent_tag}>\n)
         end
 
         toc_list
@@ -90,7 +91,7 @@ module Jekyll
           if entry[:h_num] == min_h_num
             # If the current entry should not be indented in the list, add the entry to the list
             # If the next entry should be indented in the list, generate a sublist
-            toc_list << %(<#{list_parent_tag} class="#{@configuration.item_class} #{@configuration.item_prefix}#{entry[:node_name]}"><a href="##{entry[:id]}">#{entry[:text]}</a>)
+            toc_list << %(<#{list_parent_tag} class="#{@configuration.item_class} #{@configuration.item_prefix}#{entry[:node_name]}"><a href="##{escaped_id(entry)}">#{entry[:text]}</a>)
             next_i = i + 1
             if next_i < entries.count && entries[next_i][:h_num] > min_h_num
               nest_entries = get_nest_entries(entries[next_i, entries.count], min_h_num)
@@ -107,6 +108,13 @@ module Jekyll
         end
 
         toc_list
+      end
+
+      # Escapes an entry's id for safe interpolation into an HTML attribute
+      # value (the `href="#..."` fragment). Author-supplied ids may contain
+      # characters such as `"` that would otherwise break out of the attribute.
+      def escaped_id(entry)
+        CGI.escapeHTML(entry[:id])
       end
 
       # Returns the entries in a nested list
